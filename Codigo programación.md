@@ -12,3 +12,14 @@ class Cliente:
             self.membresia.verificar_vencimiento()
             return f"Membresía: {self.membresia.tipo}, Estado: {self.membresia.estado}"
         return "Sin membresía"
+        # ===== Clase Membresía =====
+class Membresia:
+    def __init__(self, tipo, costo, duracion_dias):
+        self.tipo = tipo
+        self.costo = costo
+        self.fecha_inicio = datetime.now()
+        self.fecha_fin = self.fecha_inicio + timedelta(days=duracion_dias)
+        self.estado = "Activa"
+    def verificar_vencimiento(self):
+        if datetime.now() > self.fecha_fin:
+            self.estado = "Vencida"
