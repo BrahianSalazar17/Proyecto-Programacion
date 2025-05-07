@@ -43,3 +43,72 @@ class RegistroEntrada:
             print(f"Acceso permitido para {self.cliente.nombre}")
         else:
             print(f"Acceso denegado para {self.cliente.nombre}")
+            # ===== Datos Simulados =====
+clientes = []
+
+# ===== Funciones del sistema =====
+def registrar_cliente():
+    nombre = input("Nombre del cliente: ")
+    cliente = Cliente(len(clientes)+1, nombre)
+    clientes.append(cliente)
+    print(f"Cliente registrado con ID: {cliente.id_cliente}")
+
+def activar_membresia():
+    id_cliente = int(input("ID cliente: "))
+    tipo = input("Tipo: ")
+    costo = float(input("Costo: "))
+    dias = int(input("Duración en días: "))
+    membresia = Membresia(tipo, costo, dias)
+    clientes[id_cliente - 1].asignar_membresia(membresia)
+    print("Membresía activada.")
+
+def registrar_pago()
+id_cliente = int(input("ID cliente:"))
+monto = float(input("Monto"))
+metodo = input ("Metodo de pago")
+pago = RegistreoPagos(clientes[id_cliente - 1], monto, metodo)
+    pago.mostrar_pago()
+def validar_entrada():
+id_cliente = int(input("ID cliente"))
+entrada =RegistroEntrada(clientes[id_cliente - 1])
+    entrada.validar_acceso()
+def consultar_membresia():
+id_cliente = int(input("ID cliente:"))
+print(clientes[id_cliente - 1].consultar_estado_membresia()]
+# ===== Menú principal =====
+def menu():
+    while True:
+      print("\n--- SISTEMA DE GIMNASIO ---")
+        print("1. Registrar cliente")
+        print("2. Activar membresía")
+        print("3. Registrar pago")
+        print("4. Validar acceso al gimnasio")
+        print("5. Consultar membresía")
+        print("6. Salir")
+        opcion = input("Elige opción: ")
+
+        if opcion == "1":
+            registrar_cliente()
+        elif opcion == "2":
+            activar_membresia()
+        elif opcion == "3":
+            registrar_pago()
+        elif opcion == "4":
+            validar_entrada()
+        elif opcion == "5":
+            consultar_membresia()
+        elif opcion == "6":
+            print("¡Hasta luego!")
+            break
+        else:
+            print("Opción no válida.")
+
+menu()
+      
+        
+        
+
+
+    
+
+
