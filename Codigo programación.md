@@ -23,3 +23,23 @@ class Membresia:
     def verificar_vencimiento(self):
         if datetime.now() > self.fecha_fin:
             self.estado = "Vencida"
+# ===== Clase Registro de Pagos =====
+class RegistroPagos:
+    def __init__(self, cliente, monto, metodo_pago):
+        self.cliente = cliente
+        self.monto = monto
+        self.metodo_pago = metodo_pago
+        self.fecha_pago = datetime.now()
+    def mostrar_pago(self):
+        print(f"{self.cliente.nombre} pagó ${self.monto} por {self.metodo_pago} el {self.fecha_pago.date()}")
+        
+# ===== Clase Registro de Entrada =====
+class RegistroEntrada:
+    def __init__(self, cliente):
+        self.cliente = cliente
+        self.fecha = datetime.now()
+    def validar_acceso(self):
+        if self.cliente.membresia and self.cliente.membresia.estado == "Activa":
+            print(f"Acceso permitido para {self.cliente.nombre}")
+        else:
+            print(f"Acceso denegado para {self.cliente.nombre}")
