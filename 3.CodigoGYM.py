@@ -16,7 +16,7 @@ class Cliente:
             return f"Membresía: {self.membresia.tipo}, Estado: {self.membresia.estado}"
         return "Sin membresía"
 
-# ===== Clase Membresía =====
+# ===== Clase Membresía (Base) =====
 class Membresia:
     def __init__(self, tipo, costo, duracion_dias):
         self.tipo = tipo
@@ -28,6 +28,19 @@ class Membresia:
     def verificar_vencimiento(self):
         if datetime.now() > self.fecha_fin:
             self.estado = "Vencida"
+
+# ===== Subclases con polimorfismo =====
+class MembresiaBasica(Membresia):
+    def verificar_vencimiento(self):
+        super().verificar_vencimiento()
+        if self.estado == "Vencida":
+            print("Su membresía básica ha vencido.")
+
+class MembresiaPremium(Membresia):
+    def verificar_vencimiento(self):
+        super().verificar_vencimiento()
+        if self.estado == "Vencida":
+            print("Su membresía premium ha vencido, considere renovarla para más beneficios.")
 
 # ===== Clase Registro de Pagos =====
 class RegistroPagos:
@@ -64,10 +77,18 @@ def registrar_cliente():
 
 def activar_membresia():
     id_cliente = int(input("ID cliente: "))
-    tipo = input("Tipo: ")
+    tipo = input("Tipo (Basica / Premium / Otra): ").strip()
     costo = float(input("Costo: "))
     dias = int(input("Duración en días: "))
-    membresia = Membresia(tipo, costo, dias)
+
+    # Polimorfismo
+    if tipo.lower() == "basica":
+        membresia = MembresiaBasica(tipo, costo, dias)
+    elif tipo.lower() == "premium":
+        membresia = MembresiaPremium(tipo, costo, dias)
+    else:
+        membresia = Membresia(tipo, costo, dias)
+
     clientes[id_cliente - 1].asignar_membresia(membresia)
     print("Membresía activada.")
 
@@ -116,4 +137,3 @@ def menu():
             print("Opción no válida.")
 
 menu()
-
