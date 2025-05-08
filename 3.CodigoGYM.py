@@ -65,23 +65,30 @@ class RegistroEntrada:
         else:
             print(f"Acceso denegado para {self.cliente.nombre}")
 
-# ===== Datos Simulados =====
-clientes = []
+# ===== Base de datos simulada =====
+clientes = {}
 
 # ===== Funciones del sistema =====
 def registrar_cliente():
+    id_cliente = int(input("ID del cliente: "))
+    if id_cliente in clientes:
+        print("Este ID ya está registrado.")
+        return
     nombre = input("Nombre del cliente: ")
-    cliente = Cliente(len(clientes)+1, nombre)
-    clientes.append(cliente)
+    cliente = Cliente(id_cliente, nombre)
+    clientes[id_cliente] = cliente
     print(f"Cliente registrado con ID: {cliente.id_cliente}")
 
 def activar_membresia():
     id_cliente = int(input("ID cliente: "))
+    if id_cliente not in clientes:
+        print("Cliente no encontrado.")
+        return
+
     tipo = input("Tipo (Basica / Premium / Otra): ").strip()
     costo = float(input("Costo: "))
     dias = int(input("Duración en días: "))
 
-    # Polimorfismo
     if tipo.lower() == "basica":
         membresia = MembresiaBasica(tipo, costo, dias)
     elif tipo.lower() == "premium":
@@ -89,24 +96,33 @@ def activar_membresia():
     else:
         membresia = Membresia(tipo, costo, dias)
 
-    clientes[id_cliente - 1].asignar_membresia(membresia)
+    clientes[id_cliente].asignar_membresia(membresia)
     print("Membresía activada.")
 
 def registrar_pago():
     id_cliente = int(input("ID cliente: "))
+    if id_cliente not in clientes:
+        print("Cliente no encontrado.")
+        return
     monto = float(input("Monto: "))
     metodo = input("Método de pago: ")
-    pago = RegistroPagos(clientes[id_cliente - 1], monto, metodo)
+    pago = RegistroPagos(clientes[id_cliente], monto, metodo)
     pago.mostrar_pago()
 
 def validar_entrada():
     id_cliente = int(input("ID cliente: "))
-    entrada = RegistroEntrada(clientes[id_cliente - 1])
+    if id_cliente not in clientes:
+        print("Cliente no encontrado.")
+        return
+    entrada = RegistroEntrada(clientes[id_cliente])
     entrada.validar_acceso()
 
 def consultar_membresia():
     id_cliente = int(input("ID cliente: "))
-    print(clientes[id_cliente - 1].consultar_estado_membresia())
+    if id_cliente not in clientes:
+        print("Cliente no encontrado.")
+        return
+    print(clientes[id_cliente].consultar_estado_membresia())
 
 # ===== Menú principal =====
 def menu():
